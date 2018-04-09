@@ -1,0 +1,12 @@
+﻿  OpenGLCamera.cpp
+c:\repos\relearnopengl\relearnopengl\shader.h(52): warning C4101: “infoLog”: 未引用的局部变量
+c:\repos\relearnopengl\relearnopengl\shader.h(51): warning C4101: “success”: 未引用的局部变量
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(230): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(347): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(348): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(352): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(353): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(355): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(356): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\repos\relearnopengl\relearnopengl\openglcamera.cpp(365): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  ReLearnOpenGL.vcxproj -> C:\repos\ReLearnOpenGL\Debug\ReLearnOpenGL.exe
