@@ -193,11 +193,11 @@ int main()
 
 		lightShader.use();
 		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(10.2f, 12.0f, 11.0f));
+		model = glm::translate(model, glm::vec3(1.2f, 1.0f, 2.0f));
 		model = glm::scale(model, glm::vec3(0.2f));
 		lightShader.setMat4("model", model);
 		lightShader.setMat4("view", view);
-		lightShader.setMat4("projectioin", projection);
+		lightShader.setMat4("projection", projection);
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 

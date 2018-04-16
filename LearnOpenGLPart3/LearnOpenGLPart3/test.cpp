@@ -75,6 +75,10 @@ int main()
 		return -1;
 	}
 
+	// build and compile shaders
+	// -------------------------
+	Shader lightShader("lightColor.vs", "lightColor.fs");
+
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
@@ -128,15 +132,14 @@ int main()
 	unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
 	glGenBuffers(1, &VBO);
+
 	glBindVertexArray(lightVAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
-	// build and compile shaders
-	// -------------------------
-	Shader lightShader("lightColor.vs", "lightColor.fs");
 
 
 	// draw in wireframe
@@ -162,18 +165,24 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// don't forget to enable shader before setting uniforms
-
+		lightShader.use();
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-
-		lightShader.use();
+		
 		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(10.2f, 12.0f, 11.0f));
+		model = glm::translate(model, glm::vec3(1.2f, 1.0f, 2.0f));
 		model = glm::scale(model, glm::vec3(0.2f));
+		/*glm::mat4 model;
+		glm::mat4 view;
+		glm::mat4 projection;
+		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));*/
+		/*view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);*/
 		lightShader.setMat4("model", model);
 		lightShader.setMat4("view", view);
-		lightShader.setMat4("projectioin", projection);
+		lightShader.setMat4("projection", projection);
+
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 

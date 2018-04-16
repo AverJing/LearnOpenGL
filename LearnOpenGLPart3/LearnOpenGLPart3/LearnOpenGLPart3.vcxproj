@@ -122,7 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c" />
-    <ClCompile Include="test.cpp" />
+    <ClCompile Include="OpenGLModelLoad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h" />
