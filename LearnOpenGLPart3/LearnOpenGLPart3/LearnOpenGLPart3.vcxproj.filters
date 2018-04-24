@@ -18,9 +18,6 @@
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
       <Filter>资源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLModelLoad.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
