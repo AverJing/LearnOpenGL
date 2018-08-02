@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\include\glad\src\glad.c" />
-    <ClCompile Include="OpenGLCamera.cpp" />
+    <ClCompile Include="OpenGLShaderEX3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\stb_image.h" />

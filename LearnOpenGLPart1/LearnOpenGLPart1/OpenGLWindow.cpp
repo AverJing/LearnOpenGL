@@ -35,7 +35,7 @@ int main() {
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-
+	
 	//glad: load all opengl funtion pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		cout << "Failed  to initialize GLAD. " << endl;

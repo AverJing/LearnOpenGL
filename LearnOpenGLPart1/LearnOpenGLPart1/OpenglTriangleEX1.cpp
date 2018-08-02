@@ -62,43 +62,43 @@ int main() {
 	}
 
 	//vertex attributes
-	//float vertices[] = {
-	//	//first triangle
-	//	0.5f, 0.5f, 0.0f,// top right
-	//	0.5f, -0.5f, 0.0f,//buttom right
-	//	-0.5f, 0.5f, 0.0f,//top tight
-	//	//second triangle
-	//	0.5f, -0.5f, 0.0f,  // buttom right
-	//	-0.5f, -0.5f, 0.0f, // buttom left
-	//	-0.5f, 0.5f, 0.0f   // top left
-
-	//};
 	float vertices[] = {
+		//first triangle
 		0.5f, 0.5f, 0.0f,// top right
 		0.5f, -0.5f, 0.0f,//buttom right
+		-0.5f, 0.5f, 0.0f,//top tight
+		//second triangle
+		0.5f, -0.5f, 0.0f,  // buttom right
 		-0.5f, -0.5f, 0.0f, // buttom left
-		-0.5f, 0.5f, 0.0f,   // top left
-		1.0f, 0.0f, 0.0f
+		-0.5f, 0.5f, 0.0f   // top left
 
 	};
+	//float vertices[] = {
+	//	0.5f, 0.5f, 0.0f,// top right
+	//	0.5f, -0.5f, 0.0f,//buttom right
+	//	-0.5f, -0.5f, 0.0f, // buttom left
+	//	-0.5f, 0.5f, 0.0f,   // top left
+	//	1.0f, 0.0f, 0.0f
 
-	unsigned int indices[] = {
-		0, 1, 4,//first triangle
-		0, 1, 2//second triangle
-	};
+	//};
+
+	//unsigned int indices[] = {
+	//	0, 1, 4,//first triangle
+	//	0, 1, 2//second triangle
+	//};
 
 	//set VBO
-	unsigned int VBO, VAO, EBO;
+	unsigned int VBO, VAO;
 	glGenBuffers(1, &VBO);
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &EBO);
+	//glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	//link vertex attributes
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -157,8 +157,8 @@ int main() {
 		// draw our first triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 6);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		//glfw: swap buffers and poll IO evenets
 		glfwSwapBuffers(window);
@@ -167,7 +167,7 @@ int main() {
 	//de-allocate all resources once they've outlived their purpose
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	//glDeleteBuffers(1, &EBO);
 
 	//glfw: teminate, cleaing all previously allocated GLFW resources
 	glfwTerminate();
