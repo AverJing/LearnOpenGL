@@ -15,8 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\include\glad\src\glad.c">
-      <Filter>资源文件</Filter>
+    <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
+      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="OpenGLShaderEX3.cpp">
       <Filter>源文件</Filter>

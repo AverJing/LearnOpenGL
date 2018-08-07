@@ -5,14 +5,15 @@
     uniform float offset;
 
 	out vec3 ourColor;
-	void main()
+	void main() 
 	{
         //normal
-        //gl_Position = vec4(aPos, 1.0f);
+        gl_Position = vec4(aPos, 1.0f);
         //EX1
         //gl_Position = vec4(aPos.x, -aPos.y, aPos.z, 1.0f);
         //EX2
-	    gl_Position = vec4(aPos.x + offset, aPos.y, aPos.z, 1.0f);
+	    //gl_Position = vec4(aPos.x + offset, aPos.y, aPos.z, 1.0f);
 	    //ourColor = aColor;
+		//EX3
         ourColor = aPos;
 	}
