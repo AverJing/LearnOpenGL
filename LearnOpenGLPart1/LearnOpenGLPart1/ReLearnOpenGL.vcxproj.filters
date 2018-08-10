@@ -18,7 +18,7 @@
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLShaderEX3.cpp">
+    <ClCompile Include="OpenGLCoordinateSystemEX3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -228,7 +228,7 @@ int main()
 		ourShader.use();
 
 		glm::mat4 view;
-		view = glm::translate(view, cubeViewPositions[2]);
+		view = glm::translate(view, cubeViewPositions[0]);
 
 		glm::mat4 projection;
 		projection = glm::perspective(glm::radians(45.0f), (float)1.0 * SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);

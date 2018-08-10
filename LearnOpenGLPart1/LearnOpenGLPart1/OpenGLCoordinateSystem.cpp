@@ -194,7 +194,7 @@ int main()
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(45.0f), (float)1.0 * SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(45.0f), (float)1.0 * 1000 / SCR_HEIGHT, 0.1f, 100.0f);
 
 		ourShader.setMat4("model", model);
 		ourShader.setMat4("view", view);
