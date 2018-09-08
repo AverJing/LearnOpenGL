@@ -11,7 +11,7 @@ std::map<std::string, Texture2D>    ResourceManager::Textures;
 std::map<std::string, Shader>       ResourceManager::Shaders;
 
 
-Shader ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name)
+Shader& ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name)
 {
 	//line 17 is wrong code	//why ?
 	//Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
@@ -20,7 +20,7 @@ Shader ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fSha
 	return Shaders[name];
 }
 
-Shader ResourceManager::GetShader(std::string name)
+Shader& ResourceManager::GetShader(std::string name)
 {
 	return Shaders[name];
 }
@@ -90,6 +90,7 @@ Shader ResourceManager::loadShaderFromFile(const GLchar *vShaderFile, const GLch
 	Shader shader;
 	shader.Compile(vShaderCode, fShaderCode, gShaderFile != nullptr ? gShaderCode : nullptr);
 	return shader;*/
+	
 	if (gShaderFile != nullptr)
 		return Shader(vShaderFile, fShaderFile, gShaderFile);
 	else
@@ -108,8 +109,16 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alp
 	// Load image
 	int width, height, ncChannels;
 	unsigned char* image = stbi_load(file, &width, &height, &ncChannels, 0);
+	
+	if (ncChannels == 1)// single color
+		texture.Internal_Format = GL_RED, texture.Image_Format = GL_RED;
+	else if (ncChannels == 3)//jpg
+		texture.Internal_Format = GL_RGB, texture.Image_Format = GL_RGB;
+	else if (ncChannels == 4)//png
+		texture.Internal_Format = GL_RGBA, texture.Image_Format = GL_RGBA;
+	
 	// Now generate texture
-	texture.Generate(width, height, image);
+	texture.Generate(width, height, image, texture.Image_Format);
 	// And finally free image data
 	stbi_image_free(image);
 	return texture;

@@ -21,9 +21,6 @@
     <ClCompile Include="resource_manager.cpp">
       <Filter>资源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
-      <Filter>资源文件</Filter>
-    </ClCompile>
     <ClCompile Include="texture.cpp">
       <Filter>资源文件</Filter>
     </ClCompile>
@@ -37,6 +34,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="game_level.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ball_object_collisions.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_generator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="post_processor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,5 +68,22 @@
     <ClInclude Include="game_level.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ball_object_collisions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_generator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="post_processor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="power_up.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\post_processor.vs">
+      <Filter>源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

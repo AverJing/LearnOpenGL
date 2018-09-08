@@ -55,12 +55,15 @@ int main()
 
 	// OpenGL configuration
 	//glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH);
 	glEnable(GL_BLEND);
+	glEnable(GL_MULTISAMPLE);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Initialize game
-	//Breakout.Init();
+	Breakout.Init();
 
 	// DeltaTime variables
 	GLfloat deltaTime = 0.0f;
@@ -77,7 +80,7 @@ int main()
 		lastFrame = currentFrame;
 		glfwPollEvents();
 
-		Breakout.Init();
+		//Breakout.Init();
 		//deltaTime = 0.001f;
 		// Manage user input
 		Breakout.ProcessInput(deltaTime);

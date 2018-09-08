@@ -33,7 +33,8 @@ void SpriteRenderer::DrawSprite(const Texture2D & texture, glm::vec2 position, g
 
 	glBindVertexArray(this->quaVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	//glBindTexture(GL_TEXTURE, 0);
+	//glBindVertexArray(0);
 }
 
 void SpriteRenderer::InitRenderData()
