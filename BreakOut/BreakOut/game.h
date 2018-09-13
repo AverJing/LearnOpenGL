@@ -51,6 +51,8 @@ public:
 	GLuint                 Width, Height;
 	std::vector<GameLevel> Levels;
 	GLuint				   Level;
+	GLuint				   Lives;
+	GLboolean KeysProcessed[1024];
 
 	//powerups
 	std::vector<PowerUp> PowerUps;

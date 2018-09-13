@@ -1,6 +1,7 @@
 #include "game.h"
 #include "particle_generator.h"
 #include "post_processor.h"
+#include "text_render.h"
 #include <algorithm>
 #include <string>
 #include <irrklang/irrKlang.h>
@@ -18,6 +19,7 @@ BallObject *ball;
 ParticleGenerator *particles;
 PostProcessor     *effects;
 ISoundEngine *SoundEngine = createIrrKlangDevice();
+TextRender *Text;
 
 GLfloat            ShakeTime = 0.0f;
 
@@ -35,7 +37,7 @@ const glm::vec2 BALL_VELOCITY(100.0f, -350.0f);
 const GLfloat BALL_RADIUS = 12.5f;
 
 Game::Game(GLuint width, GLuint height):
-	State(GAME_ACTIVE), Keys(), Width(width), Height(height)
+	State(GAME_ACTIVE), Keys(), Width(width), Height(height), Lives(1)
 {
 }
 
@@ -138,10 +140,35 @@ void Game::Init()
 
 	//audio
 	SoundEngine->play2D("audio/breakout.mp3", GL_TRUE);
+
+	//load text
+	Text = new TextRender(this->Width, this->Height);
+	Text->Load("fonts/arial.ttf", 24);
 }
 
 void Game::ProcessInput(GLfloat dt)
 {
+	if (this->State == GAME_MENU)
+	{
+		if (this->Keys[GLFW_KEY_ENTER] && !this->KeysProcessed[GLFW_KEY_ENTER])
+		{
+			this->State = GAME_ACTIVE;
+			this->KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+		}
+		if (this->Keys[GLFW_KEY_W] && !this->KeysProcessed[GLFW_KEY_W])
+		{
+			this->Level = (this->Level + 1) % 4;
+			this->KeysProcessed[GLFW_KEY_W] = GL_TRUE;
+		}
+		if (this->Keys[GLFW_KEY_S] && !this->KeysProcessed[GLFW_KEY_S])
+		{
+			if (this->Level > 0)
+				--this->Level;
+			else
+				this->Level = 3;
+			this->KeysProcessed[GLFW_KEY_S] = GL_TRUE;
+		}
+	}
 	if (this->State == GAME_ACTIVE)
 	{
 		GLfloat velocity = PLAYER_VELOCITY * dt;
@@ -171,10 +198,14 @@ void Game::ProcessInput(GLfloat dt)
 
 void Game::Update(GLfloat dt)
 {
-	//update objects
-	ball->Move(dt, Width);
+	//Question, when ball and brick collision check is true, should we still 
+	//call ball->Move(dt, Width);
+	//yeah, look, we reverse the ball->velocity(.x or .y)
+
 	//check for collision
 	this->doCollision();
+	//update objects
+	ball->Move(dt, Width);
 	//update particles
 	particles->Update(dt, *ball, 10, glm::vec2(ball->Radius / 2));
 	//update PowerUps
@@ -187,8 +218,28 @@ void Game::Update(GLfloat dt)
 			effects->Shake = GL_FALSE;
 	}
 	if (ball->Position.y >= Height) {
+		--this->Lives;
+		if (this->Lives == 0) {
+			this->ResetLevel();
+			this->State = GAME_MENU;
+		}
+		this->ResetPlayer();
+	}
+	if (this->State == GAME_ACTIVE && this->Levels[this->Level].IsComleted())
+	{
 		this->ResetLevel();
 		this->ResetPlayer();
+		effects->Chaos = GL_TRUE;
+		this->State = GAME_WIN;
+	}
+	if (this->State == GAME_WIN)
+	{
+		if (this->Keys[GLFW_KEY_ENTER])
+		{
+			this->KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+			effects->Chaos = GL_FALSE;
+			this->State = GAME_MENU;
+		}
 	}
 }
 
@@ -196,7 +247,7 @@ void Game::Render()
 {
 	//render->DrawSprite(ResourceManager::GetTexture("face"),
 		//glm::vec2(200, 200), glm::vec2(300, 400), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-	if (State == GAME_ACTIVE) {
+	if (State == GAME_ACTIVE || State == GAME_MENU) {
 		// Begin rendering to postprocessing quad
 		effects->BeginRender();
 		//draw background
@@ -222,9 +273,26 @@ void Game::Render()
 			}
 		}
 
+		std::stringstream ss; ss << this->Lives;
+		Text->RenderText("Lives:" + ss.str(), 5.0f, 5.0f, 1.0f);
+
 		// End rendering to postprocessing quad
 		effects->EndRender();
 		effects->Render(glfwGetTime());
+	}
+	if (this->State == GAME_MENU)
+	{
+		Text->RenderText("Press ENTER to start", 250.0f, Height / 2, 1.0f);
+		Text->RenderText("Press W or S to select level", 245.0f, Height / 2 + 20.0f, 0.75f);
+	}
+	if (this->State == GAME_WIN)
+	{
+		Text->RenderText(
+			"You WON!!!", 320.0, Height / 2 - 20.0, 1.0, glm::vec3(0.0, 1.0, 0.0)
+		);
+		Text->RenderText(
+			"Press ENTER to retry or ESC to quit", 130.0, Height / 2, 1.0, glm::vec3(1.0, 1.0, 0.0)
+		);
 	}
 }
 
@@ -453,6 +521,7 @@ void Game::ResetLevel()
 	else if(this->Level == 1) this->Levels[1].Load("levels/two.lvl", this->Width, this->Height * 0.5);
 	else if(this->Level == 2) this->Levels[2].Load("levels/three.lvl", this->Width, this->Height * 0.5);
 	else if(this->Level == 3) this->Levels[3].Load("levels/four.lvl", this->Width, this->Height * 0.5);
+	this->Lives = 3;
 }
 
 void Game::ResetPlayer()
