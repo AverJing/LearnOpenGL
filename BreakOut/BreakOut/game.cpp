@@ -57,6 +57,7 @@ void Game::Init()
 	ResourceManager::LoadShader("shaders/sprites.vs", "shaders/sprites.fs", nullptr, "sprite");
 	ResourceManager::LoadShader("shaders/particle.vs", "shaders/particle.fs", nullptr, "particle");
 	ResourceManager::LoadShader("shaders/post_processor.vs", "shaders/post_processor.fs", nullptr, "postprocessor");
+	ResourceManager::LoadShader("shaders/spritesInstance.vs", "shaders/spritesInstance.fs", nullptr, "level");
 	//configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width),
 		static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
@@ -71,6 +72,10 @@ void Game::Init()
 	ResourceManager::GetShader("particle").use();
 	ResourceManager::GetShader("particle").setInt("sprite", 0);
 	ResourceManager::GetShader("particle").setMat4("projection", projection);
+	ResourceManager::GetShader("level").use();
+	ResourceManager::GetShader("level").setInt("image[0]", 0);
+	ResourceManager::GetShader("level").setInt("image[1]", 1);
+	ResourceManager::GetShader("level").setMat4("projection", projection);
 
 	//load Texture
 	ResourceManager::LoadTexture("texture/awesomeface_sec.png", GL_TRUE, "face");

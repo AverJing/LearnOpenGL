@@ -123,7 +123,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c" />
-    <ClCompile Include="OpenGLIstance_asteroid2.cpp" />
+    <ClCompile Include="OpenGLInstance2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
