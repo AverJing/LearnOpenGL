@@ -18,21 +18,21 @@
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLTriangle.cpp">
+    <ClCompile Include="Polygon.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawPoly.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="Circle.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image_impl.h">
+    <ClInclude Include="Basic.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\stb_image.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Polygon.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
