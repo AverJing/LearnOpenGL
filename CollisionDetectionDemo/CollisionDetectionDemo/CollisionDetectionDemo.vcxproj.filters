@@ -18,18 +18,18 @@
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Polygon.cpp">
+    <ClCompile Include="DrawPoly.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DrawPoly.cpp">
+    <ClCompile Include="Polygon.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Circle.h">
+    <ClInclude Include="Basic.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Basic.h">
+    <ClInclude Include="Circle.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Polygon.h">

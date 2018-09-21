@@ -22,6 +22,5 @@ public:
 	void Init();
 	void Draw();
 	void Move(GLfloat dt, const GLuint width = SCR_WIDTH, const GLuint height = SCR_HEIGHT);
-private:
 	std::vector<glm::vec3> vertices;
 };

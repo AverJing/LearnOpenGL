@@ -23,6 +23,7 @@ extern const int SCR_HEIGHT;
 class Circle : public Basic
 {
 public:
+	Circle() {}
 	Circle(const Shader& shader, const glm::vec2 Position, const glm::vec2 Size, const glm::vec2 velocity,const float radius, const unsigned int n):
 		Basic(shader, Position, Size, velocity), radius(radius), n(n) {};
 	~Circle() {};
@@ -32,8 +33,8 @@ public:
 	void Move(GLfloat dt, const GLuint width = SCR_WIDTH, const GLuint height = SCR_HEIGHT);
 private:
 	std::vector<glm::vec3> vertices;
-	float radius;
 	unsigned int n;
+	float radius;
 	void setPointOfCircle();
 };
 
@@ -79,21 +80,21 @@ void Circle::Move(GLfloat dt, const GLuint width, const GLuint height)
 {
 	
 	this->Position += this->Velocity * dt * 0.0001f;
-	if (this->Position.x <= 0.0f + this->Size.x/2) {
+	if (this->Position.x <= 0.0f + this->Size.x) {
 		this->Velocity.x = -this->Velocity.x;
-		this->Position.x = this->Size.x / 2;
+		this->Position.x = this->Size.x;
 	}
-	else if (this->Position.x + this->Size.x/2 >= width) {
+	else if (this->Position.x + this->Size.x >= width) {
 		this->Velocity.x = -this->Velocity.x;
-		this->Position.x = width - this->Size.x/2;
+		this->Position.x = width - this->Size.x;
 	}
-	if (this->Position.y <= 0.0f + this->Size.y/2)
+	if (this->Position.y <= 0.0f + this->Size.y)
 	{
 		this->Velocity.y = -this->Velocity.y;
-		this->Position.y = this->Size.y / 2;
+		this->Position.y = this->Size.y;
 	}
-	else if (this->Position.y + this->Size.y/2 >= height) {
+	else if (this->Position.y + this->Size.y >= height) {
 		this->Velocity.y = -this->Velocity.y;
-		this->Position.y = height - this->Size.y/2;
+		this->Position.y = height - this->Size.y;
 	}
 }

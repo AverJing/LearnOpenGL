@@ -19,6 +19,7 @@ extern const int SCR_HEIGHT;
 
 class Basic {
 public:
+	Basic() {}
 	Basic(const Shader& shader,const glm::vec2 Position, const glm::vec2 Size, const glm::vec2 velocity) 
 		:shader(shader), Position(Position), Size(Size), Velocity(velocity) {}
 	virtual ~Basic() { glDeleteVertexArrays(1, &VAO); }
