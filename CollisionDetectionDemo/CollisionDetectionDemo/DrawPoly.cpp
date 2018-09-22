@@ -46,8 +46,9 @@ template<typename T1, typename T2>
 void doCollision(const Collision&, const std::shared_ptr<T1>, const std::shared_ptr<T2>);
 Collision checkCollision(const Circle& one, const Circle& two);
 Collision checkCollision(const Circle& one, const Polygons& two);
+Collision checkCollision(const Polygons& one, const Polygons& two);
 Direction VectorDirection(glm::vec2 target);
-
+std::tuple<float, float> projection(const std::vector<glm::vec2>& points, const glm::vec2& ver);
 
 std::shared_ptr<Shader> ourShader;
 std::shared_ptr<Circle> circle1;
@@ -136,10 +137,11 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		doCollision(checkCollision(*circle1, *circle2), circle1, circle2);
-		//doCollision(checkCollision(*circle1, *poly1), circle1, poly1);
-		//doCollision(checkCollision(*circle1, *poly2), circle1, poly2);
-		//doCollision(checkCollision(*circle2, *poly1), circle2, poly1);
-		//doCollision(checkCollision(*circle2, *poly2), circle2, poly2);
+		doCollision(checkCollision(*circle1, *poly1), circle1, poly1);
+		doCollision(checkCollision(*circle1, *poly2), circle1, poly2);
+		doCollision(checkCollision(*circle2, *poly1), circle2, poly1);
+		doCollision(checkCollision(*circle2, *poly2), circle2, poly2);
+		doCollision(checkCollision(*poly1, *poly2), poly1, poly2);
 
 		//update info
 		circle1->Move(deltaTime);
@@ -233,6 +235,17 @@ Collision checkCollision(const Circle& one, const Polygons& two) {
 		return std::make_tuple(GL_FALSE, glm::vec2(0.0f, 0.0f), 0.0f);
 }
 
+std::tuple<float, float> projection(const std::vector<glm::vec2>& points, const glm::vec2& ver) {
+	auto poly_min = FLT_MAX;
+	auto poly_max = FLT_MIN;
+	for (auto& e : points) {
+		auto tmp = glm::dot(e, ver);
+		if (tmp < poly_min) poly_min = tmp;
+		if (tmp > poly_max) poly_max = tmp;
+	}
+	return std::make_tuple(poly_min, poly_max);
+}
+
 Collision checkCollision(const Polygons& one, const Polygons& two) {
 	std::vector<glm::vec2> points_one;
 	for (auto& e : one.vertices) {
@@ -241,42 +254,42 @@ Collision checkCollision(const Polygons& one, const Polygons& two) {
 	}
 	std::vector<glm::vec2> points_two;
 	for (auto& e : two.vertices) {
-		points_one.push_back(glm::vec2(e.x * two.Size.x + two.Position.x,
+		points_two.push_back(glm::vec2(e.x * two.Size.x + two.Position.x,
 			e.y * two.Size.y + two.Position.y));
 	}
-	GLfloat length_min = FLT_MAX; //set FLOAT_MAX is better. 
-	GLfloat length_max = FLT_MIN;
-	glm::vec2 closet;
-	glm::vec2 farest;
-	for (auto &e : points) {
-		auto tmp = std::pow((one.Position.x - e.x), 2) + std::pow((one.Position.y - e.y), 2);
-		if (tmp < length_min) {
-			length_min = tmp;
-			closet = e;
-		}
-		if (tmp > length_max) {
-			length_max = tmp;
-			farest = e;
-		}
-	}
-	auto axes = glm::normalize(closet - one.Position);
-	auto poly_min = FLT_MAX;
-	auto poly_max = FLT_MIN;
-	//find the min and max projection
-	for (auto& e : points) {
-		auto tmp = glm::dot(e, axes);
-		if (tmp < poly_min) poly_min = tmp;
-		if (tmp > poly_max) poly_max = tmp;
-	}
-	auto circle_projection = glm::dot(one.Position, axes);
-	auto circle_min = circle_projection - one.Size.x;
-	auto circle_max = circle_projection + one.Size.x;
 
-	if (circle_min < poly_max && circle_max > poly_min)
-		return std::make_tuple(GL_TRUE, one.Position - closet,
-			std::min(circle_max, poly_max) - std::max(poly_min, circle_min));
-	else
-		return std::make_tuple(GL_FALSE, glm::vec2(0.0f, 0.0f), 0.0f);
+	std::vector<glm::vec2> axis{ {glm::normalize(points_one[0] - points_one[1])},
+		 {glm::normalize(points_one[1] - points_one[2])},
+		 {glm::normalize(points_one[2] - points_one[3])},
+		 {glm::normalize(points_one[0] - points_one[3])},
+		 {glm::normalize(points_two[0] - points_two[1])},
+		 {glm::normalize(points_two[1] - points_two[2])},
+		 {glm::normalize(points_two[2] - points_two[3])},
+		 {glm::normalize(points_two[0] - points_two[3])},
+	};
+
+	auto minProjection = FLT_MAX;
+	glm::vec2 axisWithminPro;
+	for (auto& one : axis) {
+		auto ver = glm::vec2(-one.y, one.x);
+
+		auto poly1 = projection(points_one, ver);
+		auto poly1_min = std::get<0>(poly1);
+		auto poly1_max = std::get<1>(poly1);
+		
+		auto poly2 = projection(points_two, ver);
+		auto poly2_min = std::get<0>(poly2);
+		auto poly2_max = std::get<1>(poly2);
+
+		if (poly1_min < poly2_max && poly1_max > poly2_min) {
+			auto tmp = std::min(poly1_max, poly2_max) - std::max(poly1_min, poly2_min);
+			if (tmp < minProjection) { minProjection = tmp; axisWithminPro = ver; }
+		}			
+		else
+			return std::make_tuple(GL_FALSE, glm::vec2(0.0f, 0.0f), 0.0f);
+	}	
+	return std::make_tuple(GL_TRUE, one.Position- two.Position,
+		minProjection);
 }
 
 template<typename T1, typename T2>
