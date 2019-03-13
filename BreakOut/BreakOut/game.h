@@ -65,7 +65,7 @@ public:
 	// GameLoop
 	void ProcessInput(GLfloat dt);
 	void Update(GLfloat dt);
-	void Render();
+	void Render(GLfloat dt);
 	//check collision
 	GLboolean checkCollision(GameObject&, GameObject&);
 	//GLboolean checkCollision(BallObject&, GameObject&);

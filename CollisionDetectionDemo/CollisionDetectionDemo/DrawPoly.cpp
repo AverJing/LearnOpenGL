@@ -133,7 +133,7 @@ int main()
 
 		// render
 		// ------
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		doCollision(checkCollision(*circle1, *circle2), circle1, circle2);
@@ -235,7 +235,8 @@ Collision checkCollision(const Circle& one, const Polygons& two) {
 		return std::make_tuple(GL_FALSE, glm::vec2(0.0f, 0.0f), 0.0f);
 }
 
-std::tuple<float, float> projection(const std::vector<glm::vec2>& points, const glm::vec2& ver) {
+std::tuple<float, float> projection(const std::vector<glm::vec2>& points, 
+	const glm::vec2& ver) {
 	auto poly_min = FLT_MAX;
 	auto poly_max = FLT_MIN;
 	for (auto& e : points) {
@@ -280,11 +281,13 @@ Collision checkCollision(const Polygons& one, const Polygons& two) {
 		auto poly2 = projection(points_two, ver);
 		auto poly2_min = std::get<0>(poly2);
 		auto poly2_max = std::get<1>(poly2);
-
+		//发生重叠
 		if (poly1_min < poly2_max && poly1_max > poly2_min) {
 			auto tmp = std::min(poly1_max, poly2_max) - std::max(poly1_min, poly2_min);
+			//保留，最小位移距离
 			if (tmp < minProjection) { minProjection = tmp; axisWithminPro = ver; }
-		}			
+		}	
+		//未发生重叠，即没有发生碰撞
 		else
 			return std::make_tuple(GL_FALSE, glm::vec2(0.0f, 0.0f), 0.0f);
 	}	

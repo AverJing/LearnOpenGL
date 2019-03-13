@@ -13,6 +13,8 @@ uniform bool shake;
 
 void main()
 {
+
+    //color = vec4(0.0f);
     color = texture(scene, TexCoords).rgba;
     vec3 sample[9];
     // sample from texture offsets if using convolution matrix

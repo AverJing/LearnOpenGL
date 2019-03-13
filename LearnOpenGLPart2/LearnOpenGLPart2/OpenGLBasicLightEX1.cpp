@@ -234,7 +234,7 @@ int main()
 
 		// render container
 		ourShader.use();
-		ourShader.setVec3("lightPos", glm::vec3(1.2f, 1.0f, 2.0f));
+		ourShader.setVec3("lightPos", lightPos);//glm::vec3(1.2f, 1.0f, 2.0f)
 		ourShader.setVec3("viewPos", camera.Position);
 		ourShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
 		ourShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);

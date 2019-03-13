@@ -70,7 +70,7 @@ int main()
 	GLfloat lastFrame = 0.0f;
 
 	// Start Game within Menu State
-	Breakout.State = GAME_ACTIVE;
+	Breakout.State = GAME_MENU;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -91,7 +91,7 @@ int main()
 		// Render
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		Breakout.Render();
+		Breakout.Render(deltaTime);
 
 		glfwSwapBuffers(window);
 	}

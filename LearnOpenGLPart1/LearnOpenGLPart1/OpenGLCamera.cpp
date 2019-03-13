@@ -16,11 +16,13 @@
 #include <glm\gtc\type_ptr.hpp>
 #include "Camera.h"
 
+//注意mat4 第一维是列  第二维是行
+
 using namespace std;
 
 //setting
 const int SCR_WIDTH = 800;
-const int SCR_HEIGHT = 600;
+const int SCR_HEIGHT = 800;
 float OFFSET = 0.5;
 
 //function declaration
@@ -259,7 +261,7 @@ int main()
 		view = camera.GetViewMatrix();
 
 		glm::mat4 projection;
-		projection = glm::perspective(camera.Zoom, (float)1.0 * SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
+		projection = glm::perspective((float)3.1415926 / 4, (float)1.0 * SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
 
 		ourShader.setMat4("view", view);
 		ourShader.setMat4("projection", projection);
@@ -351,6 +353,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	float xoffset = xpos - lastX;
 	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+	//float yoffset = ypos - lastY;
+
 
 	lastX = xpos;
 	lastY = ypos;

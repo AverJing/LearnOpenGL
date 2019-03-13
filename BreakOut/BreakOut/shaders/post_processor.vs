@@ -13,7 +13,6 @@ uniform float time;
 void main()
 {
     gl_Position = vec4(vertex.xy, 0.0f, 1.0f); 
-    TexCoords =  vertex.zw;
     
     vec2 texture = vertex.zw;
     if(chaos)

@@ -37,6 +37,7 @@
 		vec3 reflectDir = reflect(-lightDir, norm);
 		float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess);
 		vec3 specular = (vec3(texture(material.specular, texCoord))) * spec * light.specular;
+		//EX2
 		//vec3 specular = (vec3(1.0) - vec3(texture(material.specular, texCoord))) * spec * light.specular;// here we inverse the sampled specular color. Black becomes white and white becomes black.
 
 		vec3 result = (ambient + diffuse + specular);

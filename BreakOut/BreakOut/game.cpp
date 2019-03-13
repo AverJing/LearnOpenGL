@@ -84,12 +84,12 @@ void Game::Init()
 	ResourceManager::LoadTexture("texture/block_solid.png", GL_FALSE, "block_solid");
 	ResourceManager::LoadTexture("texture/paddle.png", GL_TRUE, "paddle");
 	ResourceManager::LoadTexture("texture/particle.png", GL_TRUE, "particle");
-	ResourceManager::LoadTexture("textures/powerup_speed.png", GL_TRUE, "powerup_speed");
-	ResourceManager::LoadTexture("textures/powerup_sticky.png", GL_TRUE, "powerup_sticky");
-	ResourceManager::LoadTexture("textures/powerup_increase.png", GL_TRUE, "powerup_increase");
-	ResourceManager::LoadTexture("textures/powerup_confuse.png", GL_TRUE, "powerup_confuse");
-	ResourceManager::LoadTexture("textures/powerup_chaos.png", GL_TRUE, "powerup_chaos");
-	ResourceManager::LoadTexture("textures/powerup_passthrough.png", GL_TRUE, "powerup_passthrough");
+	ResourceManager::LoadTexture("texture/powerup_speed.png", GL_TRUE, "powerup_speed");
+	ResourceManager::LoadTexture("texture/powerup_sticky.png", GL_TRUE, "powerup_sticky");
+	ResourceManager::LoadTexture("texture/powerup_increase.png", GL_TRUE, "powerup_increase");
+	ResourceManager::LoadTexture("texture/powerup_confuse.png", GL_TRUE, "powerup_confuse");
+	ResourceManager::LoadTexture("texture/powerup_chaos.png", GL_TRUE, "powerup_chaos");
+	ResourceManager::LoadTexture("texture/powerup_passthrough.png", GL_TRUE, "powerup_passthrough");
 	//set render-specific controls
 	render = new SpriteRenderer(ResourceManager::GetShader("sprite"));
 
@@ -248,7 +248,7 @@ void Game::Update(GLfloat dt)
 	}
 }
 
-void Game::Render()
+void Game::Render(GLfloat dt)
 {
 	//render->DrawSprite(ResourceManager::GetTexture("face"),
 		//glm::vec2(200, 200), glm::vec2(300, 400), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -267,6 +267,8 @@ void Game::Render()
 		//particles have been drawn, but them can not be seen in game
 		//when I can draw particles after ball, we can only see the particles(the screen is black, can not see the game display )
 		//why?
+		//because you do not active the particle shader
+
 		//draw particle
 		particles->Draw();
 		//draw ball
@@ -280,6 +282,8 @@ void Game::Render()
 
 		std::stringstream ss; ss << this->Lives;
 		Text->RenderText("Lives:" + ss.str(), 5.0f, 5.0f, 1.0f);
+
+		Text->RenderText("FPS:" + std::to_string(static_cast<int>(1.0f / dt)), 700.0f, 10.0f, 1.0f);
 
 		// End rendering to postprocessing quad
 		effects->EndRender();
@@ -310,7 +314,6 @@ GLboolean Game::checkCollision(GameObject &one, GameObject &two)
 		two.Position.y + two.Size.y >= one.Position.y;
 	return collisionX && collisionY;
 }
-
 /*
 GLboolean Game::checkCollision(BallObject &one, GameObject &two)
 {
@@ -462,18 +465,18 @@ Direction Game::VectorDirection(glm::vec2 target)
 
 void Game::spawnPowerUps(GameObject & block)
 {
-	if (shouldSpawnPowerUps(75))
-		this->PowerUps.push_back(PowerUp("speed", glm::vec3(0.5f, 0.5f, 1.0f), 0.0f, block.Position, ResourceManager::GetTexture("powerup_speed")));
-	//if (shouldSpawnPowerUps(75))
-		//this->PowerUps.push_back(PowerUp("sticky", glm::vec3(1.0f, 0.5f, 1.0f), 20.0f, block.Position, ResourceManager::GetTexture("powerup_sticky")));
-	if (shouldSpawnPowerUps(75))
+	if (shouldSpawnPowerUps(30))
+		this->PowerUps.push_back(PowerUp("speed", glm::vec3(0.5f, 0.5f, 1.0f), 2.0f, block.Position, ResourceManager::GetTexture("powerup_speed")));
+	if (shouldSpawnPowerUps(30))
+		this->PowerUps.push_back(PowerUp("sticky", glm::vec3(1.0f, 0.5f, 1.0f), 20.0f, block.Position, ResourceManager::GetTexture("powerup_sticky")));
+	if (shouldSpawnPowerUps(30))
 		this->PowerUps.push_back(PowerUp("pass-through", glm::vec3(0.5f, 1.0f, 0.5f), 10.0f, block.Position, ResourceManager::GetTexture("powerup_passthrough")));
-	if (shouldSpawnPowerUps(75))
-		this->PowerUps.push_back(PowerUp("pad-size-increase", glm::vec3(1.0f, 0.6f, 0.4f), 0.0f, block.Position, ResourceManager::GetTexture("powerup_increase")));
+	if (shouldSpawnPowerUps(30))
+		this->PowerUps.push_back(PowerUp("pad-size-increase", glm::vec3(1.0f, 0.6f, 0.4f), 0.8f, block.Position, ResourceManager::GetTexture("powerup_increase")));
 	if (shouldSpawnPowerUps(15))
-		this->PowerUps.push_back(PowerUp("confuse", glm::vec3(1.0f, 0.3f, 0.3f), 15.0f, block.Position, ResourceManager::GetTexture("powerup_confuse")));
+		this->PowerUps.push_back(PowerUp("confuse", glm::vec3(1.0f, 0.3f, 0.3f), 2.0f, block.Position, ResourceManager::GetTexture("powerup_confuse")));
 	if (shouldSpawnPowerUps(15))
-		this->PowerUps.push_back(PowerUp("chaos", glm::vec3(0.9f, 0.25f, 0.25f), 15.0f, block.Position, ResourceManager::GetTexture("powerup_chaos")));
+		this->PowerUps.push_back(PowerUp("chaos", glm::vec3(0.9f, 0.25f, 0.25f), 2.0f, block.Position, ResourceManager::GetTexture("powerup_chaos")));
 }
 
 void Game::updatePowerUps(GLfloat dt)
@@ -482,6 +485,7 @@ void Game::updatePowerUps(GLfloat dt)
 		powerup.Position += powerup.Velocity * dt;
 		if (powerup.Activated) {
 			powerup.Duration -= dt;
+			//std::cout << powerup.Duration << "\n";
 			if (powerup.Duration <= 0.0f) {
 				//remove powerup from list
 				powerup.Activated = GL_FALSE;
@@ -502,14 +506,20 @@ void Game::updatePowerUps(GLfloat dt)
 				}
 				else if (powerup.Type == "confuse") {
 					if (!isOtherPowerUpActive(this->PowerUps, "confuse")) {
-						//only reset if no other PowerUp of type sticky is active
-						effects->Confuse = GL_FALSE;
+						//only reset if no other PowerUp of type confuse is active
+						effects->Confuse = GL_FALSE;						
 					}
 				}
 				else if (powerup.Type == "chaos") {
 					if (!isOtherPowerUpActive(this->PowerUps, "chaos")) {
-						//only reset if no other PowerUp of type sticky is active
+						//only reset if no other PowerUp of type chaos is active
 						effects->Chaos = GL_FALSE;
+						//std::cout << 00000000000 << "\n";
+					}
+				}
+				else if (powerup.Type == "pad-size-increase") {
+					if (!isOtherPowerUpActive(this->PowerUps, "pad-size-increase")) {
+						player->Size -= 50;
 					}
 				}
 			}
@@ -539,7 +549,7 @@ void Game::ResetPlayer()
 }
 
 //non-member function
-GLboolean shouldSpawnPowerUps(GLuint chance) {
+static GLboolean shouldSpawnPowerUps(GLuint chance) {
 	auto random = rand() % chance;
 	return random == 0;
 }
@@ -549,11 +559,11 @@ void activePowerUp(PowerUp& powerup) {
 	if (powerup.Type == "speed") {
 		ball->Velocity *= 1.2;
 	}
-	/*
+	
 	else if (powerup.Type == "sticky") {
 		ball->Stuck = GL_TRUE;
 		player->Color = glm::vec3(1.0f, 0.5f, 1.0f);
-	}*/
+	}
 	else if (powerup.Type == "pass-through") {
 		ball->PassThrough = GL_TRUE;
 		ball->Color = glm::vec3(1.0f, 0.5f, 0.5f);
@@ -567,13 +577,15 @@ void activePowerUp(PowerUp& powerup) {
 	}
 	else if (powerup.Type == "chaos") {
 		if (!effects->Chaos)
-			effects->Confuse = GL_TRUE;
+			effects->Chaos = GL_TRUE;
 	}
 }
 
+//有问题，这个powerups包含比较者自身，也即一定返回true
 GLboolean isOtherPowerUpActive(std::vector<PowerUp>& powerups, std::string type) {
 	for (auto &e : powerups) {
-		if (e.Type == type)
+		//修正
+		if (e.Activated && e.Type == type)
 			return GL_TRUE;
 	}
 	return GL_FALSE;

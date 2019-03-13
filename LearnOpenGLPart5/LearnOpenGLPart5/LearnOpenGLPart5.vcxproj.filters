@@ -18,7 +18,7 @@
     <ClCompile Include="..\..\..\..\include\glad\src\glad.c">
       <Filter>资源文件</Filter>
     </ClCompile>
-    <ClCompile Include="NormalMapping.cpp">
+    <ClCompile Include="shadow_mapping_base.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
