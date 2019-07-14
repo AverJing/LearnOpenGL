@@ -141,7 +141,7 @@ int main()
 
 	// load models
 	// -----------
-	Model ourModel("nanosuit/nanosuit.obj");
+	Model ourModel("tree8/tree8.obj");
 
 	// draw in wireframe
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -174,6 +174,8 @@ int main()
 		ourShader.setMat4("projection", projection);
 		ourShader.setMat4("view", view);
 
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// render the loaded model
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
@@ -188,7 +190,7 @@ int main()
 		ourShader.setFloat("pointlight.linear", 0.09);
 		ourShader.setFloat("pointlight.quadratic", 0.032);
 		ourModel.Draw(ourShader);
-
+		//glDisable(GL_BLEND);
 
 		lightShader.use();
 		model = glm::mat4();

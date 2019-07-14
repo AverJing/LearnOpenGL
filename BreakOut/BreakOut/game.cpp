@@ -394,7 +394,6 @@ void Game::doCollision()
 							ball->Position.x += penetration;
 						else
 							ball->Position.x -= penetration;
-
 					}
 					else {// Vertical collision
 						//ball->Velocity.y = -ball->Velocity.y;// Reverse Vertical velocity

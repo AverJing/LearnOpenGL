@@ -79,7 +79,6 @@ void SpriteRenderer::DrawSprite(const vector<GLuint>& texture, const vector<glm:
 	glEnableVertexAttribArray(5);
 	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3*vec4Size));
 
-
 	glVertexAttribDivisor(2, 1);
 	glVertexAttribDivisor(3, 1);
 	glVertexAttribDivisor(4, 1);
